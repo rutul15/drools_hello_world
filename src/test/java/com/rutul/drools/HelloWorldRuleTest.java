@@ -25,7 +25,7 @@ public class HelloWorldRuleTest {
     public void shouldFireHelloWorld() throws IOException, DroolsParserException {
         RuleBase ruleBase = initialiseDrools();
         WorkingMemory workingMemory = initializeMessageObjects(ruleBase);
-        int expectedNumberOfRulesFired = 1;
+        int expectedNumberOfRulesFired = 2;
 
         int actualNumberOfRulesFired = workingMemory.fireAllRules();
 
@@ -40,9 +40,14 @@ public class HelloWorldRuleTest {
     private PackageBuilder readRuleFiles() throws DroolsParserException, IOException {
         PackageBuilder packageBuilder = new PackageBuilder();
 
-        String ruleFile = "/helloWorld.drl";
-        Reader reader = getRuleFileAsReader(ruleFile);
-        packageBuilder.addPackageFromDrl(reader);
+        String[] ruleFiles = {"/helloWorld.drl","/actionrule.drl"};
+       
+        for (String ruleFile : ruleFiles) {
+            Reader reader = getRuleFileAsReader(ruleFile);
+            packageBuilder.addPackageFromDrl(reader);
+        }
+
+     
 
         assertNoRuleErrors(packageBuilder);
 
@@ -84,7 +89,7 @@ public class HelloWorldRuleTest {
         WorkingMemory workingMemory = ruleBase.newStatefulSession();
 
         createHelloWorld(workingMemory);
-
+        createHighValue(workingMemory);
         return workingMemory;
     }
 
@@ -93,4 +98,12 @@ public class HelloWorldRuleTest {
         helloMessage.setType("Hello");
         workingMemory.insert(helloMessage);
     }
+    
+    private void createHighValue(WorkingMemory workingMemory) {
+        Message highValue = new Message();
+        highValue.setType("High value");
+        highValue.setMessageValue(42);
+        workingMemory.insert(highValue);
+    }
+
 }

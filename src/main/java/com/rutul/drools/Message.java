@@ -13,5 +13,22 @@ public class Message {
 
     public void printMessage() {
         System.out.println("Hello Drools !!");
+        System.out.println("Type"+ type +" value: "+ messageValue);
     }
+    
+   
+    private int messageValue;
+
+   
+
+    public int getMessageValue() {
+        return messageValue;
+    }
+
+    public void setMessageValue(int messageValue) {
+        this.messageValue = messageValue;
+    }
+
+
+
 }
